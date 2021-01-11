@@ -12,6 +12,7 @@
                 <div class="card-body">
                     <article>
                         <p>{{$thread->body}}</p>
+                        test
                     </article>
                 </div>
             </div>
