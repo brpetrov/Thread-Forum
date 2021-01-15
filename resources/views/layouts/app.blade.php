@@ -22,7 +22,7 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -33,7 +33,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('threads.create') }}">Create New Thread</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Threads
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/threads">All Threads</a>
+                                @auth
+                                    <a class="dropdown-item" href="/threads?by={{auth()->user()->name}}">My Threads</a>
+                                @endauth
+                            </div>
+                        </li>
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Channels
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (App\Models\Channel::all() as $channel)
+                                <a class="dropdown-item" href="/threads/{{$channel->slug}}">{{$channel->name}}</a>
+                                @endforeach
+                            </div>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -75,6 +99,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class="p-4 bg-light shadow text-center">Footer</footer>
     </div>
 </body>
 </html>

@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/threads', 'ThreadController@index');
 
 Route::get('login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
@@ -39,3 +38,16 @@ Route::get('email/verify/{id}/{hash}', [App\Http\Controllers\Auth\VerificationCo
 Route::post('email/resend', [App\Http\Controllers\Auth\VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/threads', 'ThreadController@index')->name('threads.index');
+Route::get('/threads/create', 'ThreadController@create')->name('threads.create');
+Route::get('/threads/{channel:slug}/{thread}', 'ThreadController@show');
+Route::post('/threads', 'ThreadController@store');
+Route::get('/threads/{channel:slug}', 'ThreadController@index');
+
+Route::post('/threads/{channel::slug}/{thread}/replies', 'ReplyController@store')->name('replies.store');
+
+
+Route::group(['middleware' => 'auth'], function () {
+});

@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
-        $threads = Thread::latest()->get();
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
+    public function index(Channel $channel)
+    {
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest();
+        } else {
+            $threads = Thread::latest();
+        }
+
+        if ($username = request('by')) {
+            $user = User::where('name', $username)->firstOrFail();
+            $threads->where('user_id', $user->id);
+        }
+
+        $threads = $threads->get();
+
         return view('threads.index', compact('threads'));
     }
 
@@ -25,7 +40,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        return view('threads.create');
     }
 
     /**
@@ -36,7 +51,20 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+            'channel_id' => 'required|exists:channels,id'
+        ]);
+
+        $thread = Thread::create([
+            'user_id' => auth()->id(),
+            'channel_id' => request('channel_id'),
+            'title' => request('title'),
+            'body' => request('body')
+        ]);
+
+        return redirect($thread->path());
     }
 
     /**
@@ -45,9 +73,9 @@ class ThreadController extends Controller
      * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
-        //
+        return view('threads.show', compact('thread'));
     }
 
     /**

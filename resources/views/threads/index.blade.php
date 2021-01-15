@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-11">
+        <div class="col-md-12">
             @foreach ($threads as $thread)
             <div class="card my-3">
                 <div class="card-header">
-                    <h5>{{$thread->title}}</h5>
+                    <a href="{{$thread->path()}}"><h5>{{$thread->title}}</h5></a>
                 </div>
                 <div class="card-body">
                     <article>
                         <p>{{$thread->body}}</p>
-                        test
                     </article>
                 </div>
             </div>
