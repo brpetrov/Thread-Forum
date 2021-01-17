@@ -49,5 +49,10 @@ Route::get('/threads/{channel:slug}', 'ThreadController@index');
 Route::post('/threads/{channel::slug}/{thread}/replies', 'ReplyController@store')->name('replies.store');
 
 
+// Route::get('/data', function () {
+//     $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(7));
+//     dd($analyticsData);
+// });
+
 Route::group(['middleware' => 'auth'], function () {
 });

@@ -7,7 +7,11 @@
             @foreach ($threads as $thread)
             <div class="card my-3">
                 <div class="card-header">
-                    <a href="{{$thread->path()}}"><h5>{{$thread->title}}</h5></a>
+                    <div class="d-flex flex-row">
+                        <a class="d-inline" href="{{$thread->path()}}"><h5 class="flex">{{$thread->title}}</h5></a>
+                        <a href="{{$thread->path()}}" class="ml-auto">{{$thread->replies()->count()}} {{Str::plural('reply',$thread->replies()->count())}}</a>
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <article>

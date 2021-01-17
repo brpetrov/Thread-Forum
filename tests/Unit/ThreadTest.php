@@ -7,13 +7,11 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ThreadTest extends TestCase
 {
     use DatabaseMigrations;
-    use RefreshDatabase;
 
 
     public function test_a_thread_has_a_creator()
@@ -54,5 +52,4 @@ class ThreadTest extends TestCase
         $thread = Thread::factory()->create();
         $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
     }
-
 }

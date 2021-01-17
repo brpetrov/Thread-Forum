@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Models\User;
+use App\Filters\ThreadFilters;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -15,40 +16,35 @@ class ThreadController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
+        $threads = Thread::latest()->filter($filters);
+
         if ($channel->exists) {
-            $threads = $channel->threads()->latest();
-        } else {
-            $threads = Thread::latest();
+            $threads->where('channel_id', $channel->id);
         }
 
-        if ($username = request('by')) {
-            $user = User::where('name', $username)->firstOrFail();
-            $threads->where('user_id', $user->id);
+
+        // if (request('popular')) {
+        //     $threads->orderBy('replies_count', 'desc');
+        // }
+
+        if (request()->wantsJson()) {
+            return $threads;
         }
 
         $threads = $threads->get();
-
         return view('threads.index', compact('threads'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        return view('threads.create');
+        $channels = Channel::all();
+        return view('threads.create', compact('channels'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -67,46 +63,25 @@ class ThreadController extends Controller
         return redirect($thread->path());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Thread  $thread
-     * @return \Illuminate\Http\Response
-     */
     public function show(Channel $channel, Thread $thread)
     {
-        return view('threads.show', compact('thread'));
+        return view('threads.show', [
+            'thread' => $thread,
+            'replies' => $thread->replies()->paginate(5)
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Thread  $thread
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Thread $thread)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Thread  $thread
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Thread $thread)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Thread  $thread
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Thread $thread)
     {
         //

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Channel extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $primaryKey = 'id';
 
     public function getRouteKeyName()
     {

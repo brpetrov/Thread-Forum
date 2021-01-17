@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
                     <h5><a href="#">{{$thread->user->name}}</a> posted: {{$thread->title}}</h5>
@@ -39,6 +39,24 @@
                 @foreach ($thread->replies as $reply)
                     @include('components.reply')
                 @endforeach
+
+                {{$replies->links('pagination::bootstrap-4')}}
+
+
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><a href="#">{{$thread->user->name}}</a> posted: {{$thread->title}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>This thread was published {{$thread->created_at->diffForHumans()}}</p>
+                        <p>by {{$thread->user->name}}</p>
+                        <p> {{$thread->replies()->count()}} {{Str::plural('comment'),$thread->replies()->count()}}</p>
+                    </div>
+                    </div>
             </div>
         </div>
 </div>

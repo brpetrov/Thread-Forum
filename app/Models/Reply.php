@@ -10,6 +10,7 @@ class Reply extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $primaryKey = 'id';
 
     public function user()
     {

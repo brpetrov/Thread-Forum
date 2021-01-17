@@ -7,7 +7,6 @@ use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReadThreadsTest extends TestCase
@@ -18,7 +17,6 @@ class ReadThreadsTest extends TestCase
      * @return void
      */
     use DatabaseMigrations;
-    use RefreshDatabase;
 
     public function test_a_user_can_view_all_threads()
     {
@@ -56,7 +54,7 @@ class ReadThreadsTest extends TestCase
             ->assertDontSee($threadNotInChannel);
     }
 
-    public function test_a_user_can_filter_thread_by_name()
+    public function test_a_user_can_filter_thread_by_any_username()
     {
         $user = User::factory()->create(['name' => 'JohnDoe']);
         $this->be($user);
@@ -67,5 +65,25 @@ class ReadThreadsTest extends TestCase
         $this->get('threads?by=JohnDoe')
             ->assertSee($threadByJohn->title)
             ->assertDontSee($threadNotByJohn->title);
+    }
+
+    public function test_a_user_can_filter_threads_by_popularity()
+    {
+        // given we have three threads
+        // with 2 replies , 3 replies and 0 replies
+        $threadWithTwoReplies = Thread::factory()->create();
+        Reply::factory()->count(2)->create(['thread_id' => $threadWithTwoReplies->id]);
+
+        $threadWithThreeReplies = Thread::factory()->create();
+        Reply::factory()->count(3)->create(['thread_id' => $threadWithThreeReplies->id]);
+
+        $threadWithZeroReplies = Thread::factory()->create();
+
+        // When I filter all threds by popularity
+        $response = $this->getJson('threads?popularity=1')->json();
+
+        // Then they should be returned from most replies to least
+
+        $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
 }
