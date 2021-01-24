@@ -80,7 +80,7 @@ class ReadThreadsTest extends TestCase
         $threadWithZeroReplies = Thread::factory()->create();
 
         // When I filter all threds by popularity
-        $response = $this->getJson('threads?popularity=1')->json();
+        $response = $this->getJson('threads?popular=1')->json();
 
         // Then they should be returned from most replies to least
 

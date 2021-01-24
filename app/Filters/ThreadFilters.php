@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Http\Request;
 

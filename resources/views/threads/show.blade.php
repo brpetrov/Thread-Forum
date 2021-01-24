@@ -22,7 +22,7 @@
                         <form class="w-100" method="POST" action="{{$thread->path().'/replies'}}">
                             @csrf
                             <div class="form-group text-center">
-                                <label for="exampleFormControlTextarea1" class="h6">Add a Reply</label>
+                                <label for="body" class="h6">Add a Reply</label>
                                 <textarea name="body" class="form-control" rows="4" placeholder="something to say?"></textarea>
                                 <button class="btn btn-primary my-2 px-4" type="submit">Post</button>
                               </div>
@@ -54,7 +54,7 @@
                     <div class="card-body">
                         <p>This thread was published {{$thread->created_at->diffForHumans()}}</p>
                         <p>by {{$thread->user->name}}</p>
-                        <p> {{$thread->replies()->count()}} {{Str::plural('comment'),$thread->replies()->count()}}</p>
+                        <p> {{$thread->replies_count}} {{Str::plural('comment'),$thread->replies()->count()}}</p>
                     </div>
                     </div>
             </div>

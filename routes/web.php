@@ -46,7 +46,8 @@ Route::get('/threads/{channel:slug}/{thread}', 'ThreadController@show');
 Route::post('/threads', 'ThreadController@store');
 Route::get('/threads/{channel:slug}', 'ThreadController@index');
 
-Route::post('/threads/{channel::slug}/{thread}/replies', 'ReplyController@store')->name('replies.store');
+Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->name('replies.store');
+Route::post('/replies/{reply}/favorites', 'FavoritesController@store')->name('favorites.store');
 
 
 // Route::get('/data', function () {
@@ -56,3 +57,7 @@ Route::post('/threads/{channel::slug}/{thread}/replies', 'ReplyController@store'
 
 Route::group(['middleware' => 'auth'], function () {
 });
+
+
+Route::get('/contact', 'ContactController@show')->name('contact.show');
+Route::post('/contact', 'ContactController@store')->name('contact.store');
