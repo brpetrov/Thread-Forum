@@ -8,8 +8,12 @@
             <div class="card my-3">
                 <div class="card-header">
                     <div class="d-flex flex-row">
-                        <a class="d-inline" href="{{$thread->path()}}"><h5 class="flex">{{$thread->title}}</h5></a>
-                        <a href="{{$thread->path()}}" class="ml-auto">{{$thread->replies_count}} {{Str::plural('reply',$thread->replies()->count())}}</a>
+                        <a class="d-inline" href="{{$thread->path()}}">
+                            <h5 class="flex">{{$thread->title}}</h5>
+                        </a>
+                        <a href="{{$thread->path()}}" class="ml-auto">
+                            {{$thread->replies_count}} {{Str::plural('reply', $thread->replies_count)}}
+                        </a>
                     </div>
 
                 </div>

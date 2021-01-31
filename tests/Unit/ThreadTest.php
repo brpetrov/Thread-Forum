@@ -17,7 +17,7 @@ class ThreadTest extends TestCase
     public function test_a_thread_has_a_creator()
     {
         $thread = Thread::factory()->create();
-        $this->assertInstanceOf(User::class, $thread->user);
+        $this->assertInstanceOf(User::class, $thread->creator);
     }
 
 

@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h5><a href="#">{{$thread->user->name}}</a> posted: {{$thread->title}}</h5>
+                    <h5><a href="#">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
                 </div>
                 <div class="card-body">
                     <article>
@@ -49,12 +49,12 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5><a href="#">{{$thread->user->name}}</a> posted: {{$thread->title}}</h5>
+                        <h5><a href="#">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
                     </div>
                     <div class="card-body">
                         <p>This thread was published {{$thread->created_at->diffForHumans()}}</p>
-                        <p>by {{$thread->user->name}}</p>
-                        <p> {{$thread->replies_count}} {{Str::plural('comment'),$thread->replies()->count()}}</p>
+                        <p>by {{$thread->creator->name}}</p>
+                        <p> {{$thread->replies_count}} {{Str::plural('comment'),$thread->replies_count}}</p>
                     </div>
                     </div>
             </div>

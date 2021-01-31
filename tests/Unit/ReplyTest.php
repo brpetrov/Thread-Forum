@@ -24,6 +24,6 @@ class ReplyTest extends TestCase
         $reply = Reply::factory()->create(['thread_id' => $thread->id]);
 
         $response = $this->get($thread->path());
-        $response->assertSee($reply->user->name);
+        $response->assertSee($reply->owner->name);
     }
 }

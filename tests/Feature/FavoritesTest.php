@@ -6,7 +6,6 @@ use App\Models\Favorite;
 use App\Models\Reply;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 

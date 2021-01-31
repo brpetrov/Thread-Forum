@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,8 @@ class Thread extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $with = ['creator'];
 
     protected static function boot()
     {
@@ -30,9 +33,9 @@ class Thread extends Model
     }
 
 
-    public function user()
+    public function creator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function addReply($reply)
@@ -45,7 +48,7 @@ class Thread extends Model
         return $this->belongsTo(Channel::class);
     }
 
-    public function scopeFilter($query, $filters)
+    public function scopeFilter($query, ThreadFilters $filters)
     {
         return $filters->apply($query);
     }
