@@ -73,9 +73,19 @@ class ThreadController extends Controller
     }
 
 
-    public function destroy(Thread $thread)
+    public function destroy(Channel $channel, Thread $thread)
     {
-        //
+        // if ($thread->user_id != auth()->id()) {
+        //     abort(403, 'You do not have permission to delete this thread');
+        // }
+        $this->authorize('update', $thread);
+        $thread->replies()->delete();
+        $thread->delete();
+        if (request()->wantsJson()) {
+            return response([], 204);
+        }
+
+        return redirect('/threads');
     }
 
     public function getThreads(Channel $channel, ThreadFilters $filters)
@@ -90,7 +100,6 @@ class ThreadController extends Controller
         // if (request('popular')) {
         //     $threads->orderBy('replies_count', 'desc');
         // }
-
 
         return $threads->get();
     }

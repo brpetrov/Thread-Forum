@@ -43,11 +43,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/threads', 'ThreadController@index')->name('threads.index');
 Route::get('/threads/create', 'ThreadController@create')->name('threads.create');
 Route::get('/threads/{channel:slug}/{thread}', 'ThreadController@show');
+Route::delete('/threads/{channel:slug}/{thread}', 'ThreadController@destroy');
+
 Route::post('/threads', 'ThreadController@store');
 Route::get('/threads/{channel:slug}', 'ThreadController@index');
 
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store')->name('replies.store');
 Route::post('/replies/{reply}/favorites', 'FavoritesController@store')->name('favorites.store');
+
+
+Route::get('/profiles/{user}', 'ProfileController@show')->name('profile.show');
 
 
 // Route::get('/data', function () {

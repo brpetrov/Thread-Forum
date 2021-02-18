@@ -9,6 +9,7 @@ class Reply extends Model
 {
     use HasFactory;
     use Favoritable;
+    use RecordsActivity;
 
     protected $guarded = [];
     protected $primaryKey = 'id';

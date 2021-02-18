@@ -6,7 +6,7 @@
         <div class="col-md-7">
             <div class="card">
                 <div class="card-header">
-                    <h5><a href="#">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
+                    <h5><a href="/profiles/{{$thread->creator->name}}">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
                 </div>
                 <div class="card-body">
                     <article>
@@ -49,12 +49,22 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h5><a href="#">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
+                        <h5><a href="/profiles/{{$thread->creator->name}}">{{$thread->creator->name}}</a> posted: {{$thread->title}}</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <p>This thread was published {{$thread->created_at->diffForHumans()}}</p>
                         <p>by {{$thread->creator->name}}</p>
                         <p> {{$thread->replies_count}} {{Str::plural('comment'),$thread->replies_count}}</p>
+                        @can('update',$thread)
+                        <div class="text-right my-n2">
+                            <form action="{{$thread->path()}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger mt-n3 mr-n2" type="button">Delete</button>
+                            </form>
+                        </div>
+                        @endcan
+
                     </div>
                     </div>
             </div>
