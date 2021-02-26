@@ -39,18 +39,38 @@ class ParticipateInForumTest extends TestCase
             ->assertSee($reply->body);
     }
 
-    // NOT WORKING FOR NOW
-    // public function test_a_reply_requires_a_body()
-    // {
-    //     $user = User::factory()->create();
-    //     $this->be($user);
+    public function test_a_reply_requires_a_body()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
 
-    //     $thread = Thread::factory()->create();
+        $thread = Thread::factory()->create();
 
-    //     $reply = Reply::factory()->make(['body' => null]);
+        $reply = Reply::factory()->make(['body' => null]);
 
 
-    //     $this->post($thread->path() . '/replies', $reply->toArray())
-    //         ->assertSessionHasErrors('body');
-    // }
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
+    }
+
+    public function test_unauthorized_users_cannot_delete_replies()
+    {
+        $reply = Reply::factory()->create();
+        $this->delete("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        $user = User::factory()->create();
+        $this->be($user);
+        $this->delete("/replies/{$reply->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_authorized_users_can_delete_replies()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
+        $this->delete("/replies/{$reply->id}")->assertStatus(302);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
 }

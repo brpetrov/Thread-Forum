@@ -51,7 +51,8 @@ class ThreadController extends Controller
             'body' => request('body')
         ]);
 
-        return redirect($thread->path());
+        return redirect($thread->path())
+            ->with('flash', 'Your Thread Has Been Published.');
     }
 
     public function show(Channel $channel, Thread $thread)
@@ -79,7 +80,6 @@ class ThreadController extends Controller
         //     abort(403, 'You do not have permission to delete this thread');
         // }
         $this->authorize('update', $thread);
-        $thread->replies()->delete();
         $thread->delete();
         if (request()->wantsJson()) {
             return response([], 204);

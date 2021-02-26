@@ -13,10 +13,11 @@
         <div class="p-3 bg-primary text-white rounded ">
           <h4>{{$date}}</h4>
         </div>
-      @foreach ($activity as $record)
-      @include("profiles.activities.{$record->type}",['activity'=>$record])
-
-      @endforeach
+        @foreach ($activity as $record)
+            @if (view()->exists("profiles.activities.{$record->type}"))
+            @include("profiles.activities.{$record->type}",['activity'=>$record])
+            @endif
+         @endforeach
       @endforeach
 
       {{-- {{$threads->links('pagination::bootstrap-4')}} --}}

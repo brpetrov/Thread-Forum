@@ -50,7 +50,7 @@ class ReplyController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return back();
+        return back()->with('flash', 'Your Reply Has Been Published');
     }
 
     /**
@@ -95,6 +95,8 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
-        //
+        $this->authorize('delete', $reply);
+        $reply->delete();
+        return back();
     }
 }
