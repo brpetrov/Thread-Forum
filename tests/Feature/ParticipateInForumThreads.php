@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class ParticipateInForumTest extends TestCase
+class ParticipateInForumThreads extends TestCase
 {
     use DatabaseMigrations;
 
@@ -72,5 +72,26 @@ class ParticipateInForumTest extends TestCase
         $reply = Reply::factory()->create(['user_id' => auth()->id()]);
         $this->delete("/replies/{$reply->id}")->assertStatus(302);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    public function test_authorized_users_can_update_replies()
+    {
+        $user = User::factory()->create();
+        $this->be($user);
+
+        $reply = Reply::factory()->create(['user_id' => auth()->id()]);
+
+        $updatedReply = 'You have been changed!';
+
+        $this->patch("/replies/{$reply->id}", ['body' => $updatedReply]);
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updatedReply]);
+    }
+
+    public function test_unauthorized_users_cannot_update_replies()
+    {
+
+        $reply = Reply::factory()->create();
+
+        $this->patch("/replies/{$reply->id}")->assertRedirect('login');
     }
 }

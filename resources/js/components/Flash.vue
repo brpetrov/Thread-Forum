@@ -1,6 +1,6 @@
 <template>
     <div class="fixed-bottom alert alert-primary mb-0 text-center" role="alert" v-show="show">
-        <strong>Success!</strong> {{body}}
+        {{body}}
     </div>
 </template>
 
@@ -40,3 +40,7 @@
         }
     }
 </script>
+
+<style>
+[v-cloak]{display: none;}
+</style>
