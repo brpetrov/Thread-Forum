@@ -15,6 +15,7 @@ class Reply extends Model
     protected $primaryKey = 'id';
 
     protected $with = ['owner', 'favorites'];
+    protected $appends = ['favoritesCount', 'isFavorited'];
 
     public static function boot()
     {

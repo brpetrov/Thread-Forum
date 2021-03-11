@@ -1,6 +1,8 @@
 <script>
+import Favorite from '../components/Favorite'
 export default {
     props:['attributes'],
+    components:{Favorite},
 data(){
     return{
         editing:false,
@@ -15,6 +17,13 @@ methods:{
         this.editing=false;
 
         flash('Reply updated');
+    },
+
+    deleteReply(){
+        axios.delete('/replies/' + this.attributes.id);
+        $(this.$el).fadeOut(300, ()=>{
+            flash('Reply deleted');
+        });
     }
 }
 }

@@ -9,7 +9,7 @@
         <a class="btn btn-primary btn-lg" href="#" role="button">Follow</a>
       </div>
 
-      @foreach ($activities as $date=>$activity)
+      @forelse ($activities as $date=>$activity)
         <div class="p-3 bg-primary text-white rounded ">
           <h4>{{$date}}</h4>
         </div>
@@ -18,7 +18,10 @@
             @include("profiles.activities.{$record->type}",['activity'=>$record])
             @endif
          @endforeach
-      @endforeach
+
+         @empty
+         <p class="mt-5 text-center h5">There is no activity for this user yet.</p>
+      @endforelse
 
       {{-- {{$threads->links('pagination::bootstrap-4')}} --}}
 </div>

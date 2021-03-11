@@ -5,13 +5,10 @@
             <a href="/profiles/{{$reply->owner->name}}">{{$reply->owner->name}}</a> said {{$reply->created_at->diffForHumans()}}
         </div>
         <div class="d-flex justify-content-between">
+            @auth
+            <favorite :reply="{{$reply}}"></favorite>
+            @endauth
 
-            <form class="mx-1" action="/replies/{{$reply->id}}/favorites" method="POST">
-                @csrf
-                <button class="btn btn-info text-white " {{$reply->isFavorited() ? 'disabled' : ''}}>
-                    <i class="far fa-thumbs-up"></i>  {{$reply->favorites_count}}
-                </button>
-            </form>
             @can('update', $reply)
 
             <div class="dropdown">
@@ -21,11 +18,7 @@
 
                 <div class="dropdown-menu text-center px-0" aria-labelledby="dropdownMenuButton">
                   <div class="dropdown-item mx-0 px-0">
-                    <form class="mx-1" method="POST" action="/replies/{{$reply->id}}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
-                    </form>
+                        <button @click="deleteReply" class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                   </div>
                   <div class="dropdown-item mx-0 px-0">
                         <button @click="editing = true" class="btn btn-info" type="submit"><i class="fas fa-edit"></i></button>

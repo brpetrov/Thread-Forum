@@ -23,8 +23,8 @@
                             @csrf
                             <div class="form-group text-center">
                                 <label for="body" class="h6">Add a Reply</label>
-                                <textarea name="body" class="form-control" rows="4" placeholder="something to say?"></textarea>
-                                <button class="btn btn-primary my-2 px-4" type="submit">Post</button>
+                                <textarea name="body" class="form-control" rows="5" placeholder="something to say?"></textarea>
+                                <button class="btn btn-block btn-primary px-5" type="submit">Post</button>
                               </div>
                         </form>
 

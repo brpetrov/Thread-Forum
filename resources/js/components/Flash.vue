@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed-bottom alert alert-primary mb-0 text-center" role="alert" v-show="show">
+    <div class="fixed-bottom alert alert-success mb-0 text-center" role="alert" v-show="show">
         {{body}}
     </div>
 </template>
